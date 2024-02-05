@@ -9,10 +9,12 @@ def login_view(request):
         user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('restricted_content.html')
+            return redirect('restricted-content/')
 
     return render(request, 'login.html')
 
+
 @login_required
 def restricted_content(request):
-    return render(request, 'restricted_content.html')
+    context = {'email': request.user.email}
+    return render(request, 'restricted_content.html', context) 
