@@ -1,0 +1,52 @@
+_____________________________________________________
+# Task 0:
+estimation: 10min
+[actual: ]
+_____________________________________________________
+
+_____________________________________________________
+
+# Task 1:
+- setup basic django instance with sqlite: 15min
+- create superuser + store in fixtures: 25min
+- provide readme/setup/install file: 10min
+
+=> Total: 50min
+[actual: ]
+_____________________________________________________
+
+_____________________________________________________
+
+# Task 2:
+- get rid of the default django test page + create default Login Page: 15min
+- build 'restricted_content' page (show users email + logout button): 15min
+- redirect after login to /restricted_content: 10min
+- write tests for the above: 20min
+
+=> Total: 60min
+[actual: ]
+_____________________________________________________
+
+_____________________________________________________
+# Task 3:
+- create token endpoint: 15min
+- create protected api endpoint: 10min
+- write tests for the above: 20min
+
+=> Total: 45min
+[actual: ]
+_____________________________________________________
+
+
+_____________________________________________________
+# Task 4:
+- create superuser endpoint: 15min
+- create crud endpoints for managing users: 30min
+
+
+Total: 45min
+[actual: ]
+_____________________________________________________
+
+Overall total estimate: 200min for Tasks 1-4 (+ 10min estimation)
+[overall actual: ]
