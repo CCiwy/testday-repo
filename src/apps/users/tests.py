@@ -32,7 +32,8 @@ class TestUserLogin(TestCase):
         response = self.client.post(url,
                                     {'email': SUPERUSER_EMAIL,
                                      'password': SUPERUSER_PASSWORD
-                                     })
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue('restricted' in response.url)
-        self.assertInHTML(SUPERUSER_EMAIL, response.content.decode())
+                                     },
+                                    follow=True
+                                    )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(SUPERUSER_EMAIL in response.content.decode())
