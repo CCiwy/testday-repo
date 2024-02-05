@@ -7,12 +7,12 @@ _____________________________________________________
 _____________________________________________________
 
 # Task 1:
-- setup basic django instance with sqlite: 15min
-- create superuser + store in fixtures: 25min
-- provide readme/setup/install file: 10min
+- setup basic django instance with sqlite: 15min [actual: 10min] 
+- create superuser + store in fixtures: 25min [actual: 10min]
+- provide readme/setup/install file: 10min [actual: 10min]
 
 => Total: 50min
-[actual: ]
+[actual: 30min]
 _____________________________________________________
 
 _____________________________________________________
