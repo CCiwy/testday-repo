@@ -14,7 +14,7 @@ class AuthenticationTest(TestCase):
         cls.user = CustomUser.objects.create_user(
             email=SUPERUSER_EMAIL, password=SUPERUSER_PASSWORD
         )
-        cls.token_url = reverse("token")
+        cls.token_url = reverse("users:token")
 
     def test_get_token_without_data_returns_status_400(self):
         response = self.client.post(self.token_url, {})
