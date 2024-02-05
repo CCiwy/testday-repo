@@ -21,13 +21,13 @@ _____________________________________________________
 _____________________________________________________
 
 # Task 2:
-- get rid of the default django test page + create default Login Page: 15min
-- build 'restricted_content' page (show users email + logout button): 15min
-- redirect after login to /restricted_content: 10min
-- write tests for the above: 20min
+- get rid of the default django test page + create default Login Page: 15min [acutal: 10min]
+- build 'restricted_content' page (show users email + logout button): 15min [actual: 5min]
+- redirect after login to /restricted_content: 10min [actual: 5min]
+- write tests for the above: 20min [actual: 30min]
 
 => Total: 60min
-[actual: ]
+[actual: 60min]
 _____________________________________________________
 
 _____________________________________________________
