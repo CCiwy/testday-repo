@@ -18,7 +18,7 @@ class AuthenticationTest(TestCase):
         cls.token_url = reverse("users:token")
 
     def test_get_token_without_data_returns_status_400(self):
-        response = self.client.post(self.token_url, {}, format='json')
+        response = self.client.post(self.token_url, {}, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -31,8 +31,9 @@ class AuthenticationTest(TestCase):
 
     def test_get_token_with_valid_data_returns_status_200(self):
         response = self.client.post(
-            self.token_url, {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD},
-            format='json'
+            self.token_url,
+            {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD},
+            format="json",
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -44,7 +45,9 @@ class AuthenticationTest(TestCase):
 
     def test_protected_endpoint_with_valid_token_returns_status_200(self):
         response = self.client.post(
-            self.token_url, {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD}, format='json'
+            self.token_url,
+            {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD},
+            format="json",
         )
 
         token = response.data[settings.API_TOKEN_NAME]

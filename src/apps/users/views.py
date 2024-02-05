@@ -3,7 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -13,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
 from .serializers import TokenSerializer
+
 
 def login_view(request):
     if request.method == "POST":
@@ -57,5 +62,3 @@ def get_token(request):
 @permission_classes([IsAuthenticated])
 def protected_endpoint(request):
     return Response({"data": "data"}, status=status.HTTP_200_OK)
-
-
