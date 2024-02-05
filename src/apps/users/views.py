@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 def login_view(request):
@@ -11,6 +11,11 @@ def login_view(request):
             login(request, user)
             return redirect('restricted-content/')
 
+    return render(request, 'login.html')
+
+
+def logout_view(request):
+    logout(request)
     return render(request, 'login.html')
 
 
