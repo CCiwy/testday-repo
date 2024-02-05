@@ -10,11 +10,9 @@ SUPERUSER_PASSWORD = "admin"
 
 
 class AuthenticationTest(TestCase):
+    fixtures = ["users.json"]
     @classmethod
     def setUpTestData(cls):
-        cls.user = CustomUser.objects.create_user(
-            email=SUPERUSER_EMAIL, password=SUPERUSER_PASSWORD
-        )
         cls.token_url = reverse("users:token")
 
     def test_get_token_without_data_returns_status_400(self):
@@ -54,3 +52,4 @@ class AuthenticationTest(TestCase):
         url = reverse("users:protected")
         response = self.client.get(url, HTTP_AUTHORIZATION=f"Bearer {token}")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["email"], SUPERUSER_EMAIL)
