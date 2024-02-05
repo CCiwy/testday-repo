@@ -19,13 +19,15 @@ python3 -m pip install -r requirements.txt
 ``` 
 
 run migrations
-```
+```bash
 python3 src/manage.py migrate
 ```
 
 load superuser fixture
-```
+```bash
 python3 src/manage.py loaddata src/fixtures/users.json 
 ```
 
-
+```bash
+python3 src/manage.py runserver
+```
