@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -42,7 +43,7 @@ def get_token(request):
     password = request.data.get("password", False)
     if not (email and password):
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    user = authenticate(email=email, password=password)
+    user = authenticate(request, email=email, password=password)
     if user is not None:
         token, _ = Token.objects.get_or_create(user=user)
         serializer = TokenSerializer(data={settings.API_TOKEN_NAME: token.key})
@@ -52,6 +53,7 @@ def get_token(request):
 
 
 @api_view(["GET"])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def protected_endpoint(request):
     return Response({"data": "data"}, status=status.HTTP_200_OK)
