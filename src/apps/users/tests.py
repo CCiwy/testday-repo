@@ -35,4 +35,4 @@ class TestUserLogin(TestCase):
                                      })
         self.assertEqual(response.status_code, 302)
         self.assertTrue('restricted' in response.url)
-        
+        self.assertInHTML(SUPERUSER_EMAIL, response.content.decode())
