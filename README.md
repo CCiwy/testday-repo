@@ -1,6 +1,8 @@
 # testday-repo
 Testing Task for a Python Expert Test Day
 
+# Requirements
+This project uses the django rest framework for api endpoints.
 
 # Manual setup
 setup virtual env
