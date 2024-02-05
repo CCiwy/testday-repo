@@ -19,6 +19,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from .authentication import EmailTokenAuthentication
 from .serializers import GetTokenSerializer
 
+
 # Template Views
 def login_view(request):
     if request.method == "POST":
@@ -43,19 +44,14 @@ def restricted_content(request):
     return render(request, "restricted_content.html", context)
 
 
-
 # API Views
 class CustomAuthToken(ObtainAuthToken):
-
     def post(self, request, *args, **kwargs):
-        serializer = GetTokenSerializer(data=request.data,
-                                           context={'request': request})
+        serializer = GetTokenSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
+        user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            settings.API_TOKEN_NAME: token.key
-        }, status=status.HTTP_200_OK)
+        return Response({settings.API_TOKEN_NAME: token.key}, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])

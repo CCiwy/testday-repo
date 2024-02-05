@@ -3,7 +3,6 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 
-from apps.users.models import CustomUser
 
 SUPERUSER_EMAIL = "admin@webrunners.de"
 SUPERUSER_PASSWORD = "admin"
@@ -11,6 +10,7 @@ SUPERUSER_PASSWORD = "admin"
 
 class AuthenticationTest(TestCase):
     fixtures = ["users.json"]
+
     @classmethod
     def setUpTestData(cls):
         cls.token_url = reverse("users:token")
@@ -52,5 +52,7 @@ class AuthenticationTest(TestCase):
         url = reverse("users:protected")
         headers = {"Authorization": f"Token {token}"}
         response = self.client.get(url, headers=headers)
-        self.assertEqual(response.status_code, status.HTTP_200_OK, (response.data, token))
+        self.assertEqual(
+            response.status_code, status.HTTP_200_OK, (response.data, token)
+        )
         self.assertEqual(response.data["email"], SUPERUSER_EMAIL)

@@ -145,7 +145,6 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "rest_framework.authentication.TokenAuthentication",
-
 ]
 
 API_TOKEN_NAME = "access"

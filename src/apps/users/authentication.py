@@ -1,7 +1,6 @@
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 
-from django.contrib.auth import get_user_model
 
 class EmailTokenAuthentication(TokenAuthentication):
     def authenticate_credentials(self, key):
@@ -15,4 +14,3 @@ class EmailTokenAuthentication(TokenAuthentication):
             return None
 
         return user, None
-
