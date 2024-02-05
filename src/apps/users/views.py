@@ -11,6 +11,7 @@ from rest_framework.response import Response
 
 from rest_framework.authtoken.models import Token
 
+from .serializers import TokenSerializer
 
 def login_view(request):
     if request.method == "POST":
@@ -41,7 +42,10 @@ def get_token(request):
     password = request.data.get("password")
     user = authenticate(email=email, password=password)
     if user is not None:
-        return Response({settings.API_TOKEN_NAME: "token"}, status=status.HTTP_200_OK)
+        token, _ = Token.objects.get_or_create(user=user)
+        serializer = TokenSerializer(data={settings.API_TOKEN_NAME: token.key})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -49,3 +53,5 @@ def get_token(request):
 @permission_classes([IsAuthenticated])
 def protected_endpoint(request):
     return Response({"data": "data"}, status=status.HTTP_200_OK)
+
+
