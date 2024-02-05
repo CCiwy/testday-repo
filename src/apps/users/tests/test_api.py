@@ -15,7 +15,8 @@ class AuthenticationTest(TestCase):
         self.tokenurl = reverse("api-token")
 
     def test_get_token_without_data_returns_status_400(self):
-        response = self.client.post("/api/token/", {})
+        url = reverse("token")
+        response = self.client.post(url, {})
 
         self.assertEqual(response.status_code, 400)
 
