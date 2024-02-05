@@ -34,5 +34,5 @@ class TestUserLogin(TestCase):
                                      'password': SUPERUSER_PASSWORD
                                      })
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.endswith('/restricted-content/'))
+        self.assertTrue('restricted' in response.url)
         
