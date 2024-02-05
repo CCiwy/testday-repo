@@ -8,28 +8,28 @@ SUPERUSER_PASSWORD = "admin"
 
 
 class AuthenticationTest(TestCase):
-    def setupTestData(self):
+    
+    @classmethod
+    def setupTestData(cls):
         self.user = CustomUser.objects.create_user(
             email=SUPERUSER_EMAIL, password=SUPERUSER_PASSWORD
         )
-        self.tokenurl = reverse("api-token")
+        cls.tokenurl = reverse("api-token")
 
     def test_get_token_without_data_returns_status_400(self):
-        url = reverse("token")
-        response = self.client.post(url, {})
+        response = self.client.post(self.token_url, {})
 
         self.assertEqual(response.status_code, 400)
 
     def test_get_token_with_invalid_data_returns_status_400(self):
-        url = reverse("token")
-        response = self.client.post(url, {"email": "", "password": ""}, format="json")
+        response = self.client.post(self.token_url, {"email": "", "password": ""}, format="json")
 
         self.assertEqual(response.status_code, 400)
 
     def test_get_token_with_valid_data_returns_status_200(self):
         url = reverse("token")
         response = self.client.post(
-            url, {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD}
+            self.token_url, {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD}
         )
 
         self.assertEqual(response.status_code, 200)
@@ -40,9 +40,8 @@ class AuthenticationTest(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_protected_endpoint_with_valid_token_returns_status_200(self):
-        url = reverse("token")
         response = self.client.post(
-            url, {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD}
+            self.token_url, {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD}
         )
 
         token = response.data["access"]
