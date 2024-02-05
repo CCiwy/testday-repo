@@ -31,7 +31,10 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-CUSTOM_APPS = []
+CUSTOM_APPS = [
+    'core',
+    'apps.users'
+    ]
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -106,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL = 'users.CustomUser'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
