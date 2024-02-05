@@ -1,18 +1,14 @@
 [
 {
-    "model": "auth.user",
+    "model": "users.customuser",
     "pk": 1,
     "fields": {
-        "password": "pbkdf2_sha256$720000$fUdAtnSHucaTB0iZVIKBuW$nkr4s6jILeuo0uwkq/eI3JGJupubXEsNkHgBEoIbq40=",
+        "password": "pbkdf2_sha256$720000$VMhnuQ7K3RQ5KwhQXjEqm3$4jsaYK0x8Njpp+RypgLIRuO9SvFogb2a0a8H4ExnKnA=",
         "last_login": null,
         "is_superuser": true,
-        "username": "admin",
-        "first_name": "",
-        "last_name": "",
         "email": "admin@webrunners.de",
-        "is_staff": true,
         "is_active": true,
-        "date_joined": "2024-02-05T13:16:15.862Z",
+        "is_staff": true,
         "groups": [],
         "user_permissions": []
     }
