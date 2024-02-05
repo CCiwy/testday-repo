@@ -38,8 +38,10 @@ def restricted_content(request):
 
 @api_view(["POST"])
 def get_token(request):
-    email = request.data.get("email")
-    password = request.data.get("password")
+    email = request.data.get("email", False)
+    password = request.data.get("password", False)
+    if not (email and password):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     user = authenticate(email=email, password=password)
     if user is not None:
         token, _ = Token.objects.get_or_create(user=user)
