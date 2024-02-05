@@ -15,10 +15,10 @@ from rest_framework.response import Response
 
 
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 
-from .serializers import TokenSerializer, GetTokenSerializer
 
-
+# Template Views
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -42,21 +42,19 @@ def restricted_content(request):
     return render(request, "restricted_content.html", context)
 
 
-@api_view(["POST"])
-def get_token(request):
-    serializer = GetTokenSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    email = serializer.validated_data["email"]
-    password = serializer.validated_data["password"]
-    user = authenticate(email=email, password=password)
-    if user is None:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    token, _ = Token.objects.get_or_create(user=user)
-    token_serializer = TokenSerializer({"access": token.key})
-    return Response(token_serializer.data, status=status.HTTP_200_OK)
+
+# API Views
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            settings.API_TOKEN_NAME: token.key
+        })
 
 
 @api_view(["GET"])
