@@ -20,12 +20,12 @@ class AuthenticationTest(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_get_token_with_invalid_data_returns_status_401(self):
+    def test_get_token_with_invalid_data_returns_status_400(self):
         response = self.client.post(
             self.token_url, {"email": "", "password": ""}, format="json"
         )
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_get_token_with_valid_data_returns_status_200(self):
         response = self.client.post(
@@ -33,7 +33,7 @@ class AuthenticationTest(TestCase):
             {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD},
             format="json",
         )
-        self.assertTrue(settings.API_TOKEN_NAME in response.data, response.data)
+        self.assertTrue(settings.API_TOKEN_NAME in response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_protected_endpoint_without_token_returns_status_401(self):
@@ -50,6 +50,7 @@ class AuthenticationTest(TestCase):
 
         token = response.data[settings.API_TOKEN_NAME]
         url = reverse("users:protected")
-        response = self.client.get(url, HTTP_AUTHORIZATION=f"Bearer {token}")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        headers = {"Authorization": f"Token {token}"}
+        response = self.client.get(url, headers=headers)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, (response.data, token))
         self.assertEqual(response.data["email"], SUPERUSER_EMAIL)
