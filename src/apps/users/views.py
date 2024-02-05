@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     if request.method == 'POST':
@@ -12,6 +13,6 @@ def login_view(request):
 
     return render(request, 'login.html')
 
-
+@login_required
 def restricted_content(request):
     return render(request, 'restricted_content.html')
