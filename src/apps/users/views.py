@@ -1,11 +1,14 @@
-from django.shortcuts import render, redirect
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+
 
 def login_view(request):
     if request.method == "POST":
@@ -36,7 +39,7 @@ def get_token(request):
     password = request.data.get("password")
     user = authenticate(email=email, password=password)
     if user is not None:
-        return Response({"access": "token"}, status=status.HTTP_200_OK)
+        return Response({settings.API_TOKEN_NAME: "token"}, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 

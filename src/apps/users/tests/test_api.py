@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 
@@ -44,7 +45,7 @@ class AuthenticationTest(TestCase):
             self.token_url, {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD}
         )
 
-        token = response.data["access"]
+        token = response.data[settings.API_TOKEN_NAME]
         url = reverse("users:protected")
         response = self.client.get(url, HTTP_AUTHORIZATION=f"Bearer {token}")
         self.assertEqual(response.status_code, 200)
