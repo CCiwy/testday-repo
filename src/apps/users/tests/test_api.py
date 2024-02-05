@@ -33,7 +33,7 @@ class AuthenticationTest(TestCase):
             {"email": SUPERUSER_EMAIL, "password": SUPERUSER_PASSWORD},
             format="json",
         )
-
+        self.assertTrue(settings.API_TOKEN_NAME in response.data, response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_protected_endpoint_without_token_returns_status_401(self):
