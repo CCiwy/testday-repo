@@ -12,7 +12,10 @@ _____________________________________________________
 - provide readme/setup/install file: 10min [actual: 10min]
 
 => Total: 50min
-[actual: 30min]
+
+[actual: 80min]
++ Create custom user manager to get rid off "username" parameter when creating users
+50min
 _____________________________________________________
 
 _____________________________________________________
