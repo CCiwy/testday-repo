@@ -36,6 +36,27 @@ python3 src/manage.py runserver
 ```
 
 
+# API Endpoints
+1. Get Token:
+- Endpoint: '/token/'
+- Method: POST
+- Request Format: JSON
+- Parameters:
+    - 'email' : unique email used as username
+    - 'password' : users password
+- Response:
+    - Status Code: 200 OK
+    - Body: {"token": "<VALID_TOKEN>"}
+
+2. Protected
+- Endpoint: '/protected/'
+- Method: GET
+- Request Format: None (Token should be include in Authentication headers)
+- Response:
+    - Status Code: 200 OK
+    - Body: {"data" : "data"}
+    - Status Code: 401 Unauthorized (If no valid token is provided)
+
 
 # fnished tasks commits:
 [Task 1](https://github.com/CCiwy/testday-repo/commit/a8948ecaca5f0116943edadbed0c2df8c27a055c)
