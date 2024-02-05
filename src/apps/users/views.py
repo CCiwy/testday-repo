@@ -16,7 +16,7 @@ from rest_framework.response import Response
 
 from rest_framework.authtoken.models import Token
 
-from .serializers import TokenSerializer
+from .serializers import TokenSerializer, GetTokenSerializer
 
 
 def login_view(request):
@@ -44,21 +44,24 @@ def restricted_content(request):
 
 @api_view(["POST"])
 def get_token(request):
-    email = request.data.get("email", False)
-    password = request.data.get("password", False)
-    if not (email and password):
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    user = authenticate(request, email=email, password=password)
-    if user is not None:
-        token, _ = Token.objects.get_or_create(user=user)
-        serializer = TokenSerializer(data={settings.API_TOKEN_NAME: token.key})
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    serializer = GetTokenSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    email = serializer.validated_data["email"]
+    password = serializer.validated_data["password"]
+    user = authenticate(email=email, password=password)
+    if user is None:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    token, _ = Token.objects.get_or_create(user=user)
+    token_serializer = TokenSerializer({"access": token.key})
+    return Response(token_serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def protected_endpoint(request):
-    return Response({"data": "data"}, status=status.HTTP_200_OK)
+    user = request.user
+    return Response({"email": user.email}, status=status.HTTP_200_OK)
