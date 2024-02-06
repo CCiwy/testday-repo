@@ -1,7 +1,14 @@
+After the fact:
+My estimations for Task3 were completely incorrect.
+Some typos/minor bugs caused by lack of concentration took me a long time to fix. 
+But i also didnt fully understand the implications of "email based auth" for authentication
+and i was not able to debug my code properly.
+After stepping away from the code and taking a look at it again, 
+i was able to fix my issues and finish the task. This time i came close to my estimates.
 _____________________________________________________
 # Task 0:
 estimation: 10min
-[actual: ]
+[actual: 10min ]
 _____________________________________________________
 
 _____________________________________________________
@@ -37,7 +44,7 @@ _____________________________________________________
 - write tests for the above: 20min
 
 => Total: 45min
-[actual: ]
+[actual: 180min]
 _____________________________________________________
 
 
