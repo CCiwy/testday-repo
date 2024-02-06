@@ -54,7 +54,7 @@ python3 src/manage.py runserver
 - Request Format: None (Token should be include in Authentication headers)
 - Response:
     - Status Code: 200 OK
-    - Body: {"data" : "data"}
+    - Body: {"email" : "<USER_EMAIL>"}
     - Status Code: 401 Unauthorized (If no valid token is provided)
 
 

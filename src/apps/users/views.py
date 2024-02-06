@@ -9,16 +9,18 @@ from rest_framework.decorators import (
     permission_classes,
 )
 from rest_framework import status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 
-from .serializers import TokenSerializer
+from .authentication import EmailTokenAuthentication
+from .serializers import GetTokenSerializer
 
 
+# Template Views
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -42,23 +44,19 @@ def restricted_content(request):
     return render(request, "restricted_content.html", context)
 
 
-@api_view(["POST"])
-def get_token(request):
-    email = request.data.get("email", False)
-    password = request.data.get("password", False)
-    if not (email and password):
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    user = authenticate(request, email=email, password=password)
-    if user is not None:
-        token, _ = Token.objects.get_or_create(user=user)
-        serializer = TokenSerializer(data={settings.API_TOKEN_NAME: token.key})
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+# API Views
+class CustomAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = GetTokenSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({settings.API_TOKEN_NAME: token.key}, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
-@authentication_classes([TokenAuthentication])
+@authentication_classes([EmailTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def protected_endpoint(request):
-    return Response({"data": "data"}, status=status.HTTP_200_OK)
+    user = request.user
+    return Response({"email": user.email}, status=status.HTTP_200_OK)
